@@ -1,19 +1,17 @@
 package unigap.api.dto.in;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 public class ResumeIn {
     @NotEmpty
-    private Long seekerId;
+    private Integer seekerId;
     @NotEmpty
     private String careerObj;
     @NotEmpty

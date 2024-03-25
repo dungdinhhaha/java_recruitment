@@ -3,15 +3,45 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/recruitment?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://host.docker.internal:3306/recruitment?autoReconnect=true&useSSL=false
     username: root
-    password:
+    password: dungprofg123
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
+      hbm2ddl.auto: update
     properties:
       hibernate:
-        show_sql: true # Hiển thị các câu lệnh SQL trong console (tùy chọn)
-        format_sql: true # Định dạng các câu lệnh SQL để dễ đọc (tùy chọn)
+        show_sql: true
+        format_sql: true
+  data:
+    redis:
+      use-redis-cache: false
+      host: redis
+      port: 6379
+
+jwt:
+  expiration: 2592000
+  secretKey: TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=
+
+logging:
+  level:
+    root: INFO
+    unigap.common.response: DEBUG
+  file:
+    path: /var/log/myapp.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+sentry:
+  dsn: https://6ab9f88a5dd1c47819aeb4226d7b2aca@o4506962015027200.ingest.us.sentry.io/4506962025250816
+  traces-sample-rate: 1.0

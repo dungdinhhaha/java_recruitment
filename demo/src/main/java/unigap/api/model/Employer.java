@@ -3,33 +3,58 @@ package unigap.api.model;
 import lombok.*;
 
 import jakarta.persistence.*;
+import unigap.api.service.EmployerListener;
 
-import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "employer")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
+@EntityListeners(EmployerListener.class)
 public class Employer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(length = 255, nullable = false, unique = true)
     private String email;
+
     @Column(length = 255)
     private String name;
+
     @Column(name = "province_id")
-    private Integer province;
+    private Integer provinceId;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "created_at")
-    private Date created_at;
+    private Date createdAt;
 
     @Column(name = "updated_at")
-    private Date updated_at;
+    private Date updatedAt;
+
     @Column(name = "AVATAR")
     private String avatar;
+
+    @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @Builder.Default
+    private Collection<Job> jobs = new HashSet<>();
+
+    public void addJob(Job job) {
+        jobs.add(job);
+
+    }
 }
+
+

@@ -2,11 +2,10 @@ package unigap.api.service.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.PageRequest;
-import unigap.api.dto.out.EmployerDtoOut;
 
 import java.util.List;
 
-public interface IEmployerRedisService {
+public interface IRedisService {
     void clear();//clear cache
     public String getKeyFrom(String keyword,
                                   String method,

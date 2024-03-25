@@ -1,2 +1,18 @@
-package unigap.api.dto.out;public class AuthResponseDto {
+package unigap.api.dto.out;
+
+
+import lombok.*;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class AuthResponseDto {
+
+    private String token;
+
+
+
+
 }
+

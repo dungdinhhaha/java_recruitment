@@ -1,21 +1,23 @@
 package unigap.api.dto.in;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class EmployerDtoIn
 {
     @Getter
     @NotEmpty
-    @Email
+    @Size(max = 255)
     private String email;
     @NotEmpty
     @Size(max=100)
@@ -23,7 +25,7 @@ public class EmployerDtoIn
     @NotEmpty
     @Size(max=100)
     private Integer province;
-
     private String description;
+    private String avatar;
 
 }

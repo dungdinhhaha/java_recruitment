@@ -52,7 +52,9 @@ public class User1  implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+          authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+          return authorityList;
     }
 
     @Override

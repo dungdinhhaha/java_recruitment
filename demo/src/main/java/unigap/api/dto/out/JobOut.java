@@ -14,21 +14,23 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class JobOut {
+    private Integer id;
     private String title;
-    private Employer employerID;
-    private int quanlity;
+    private Integer employerID;
+    private  Integer quanlity;
     private String description;
-    private  int fieldId;
-    private  int provincedIds;
-    private int salary;
+    private  Integer fieldId;
+    private  Integer provincedIds;
+    private Integer salary;
     private Date expired ;
-    public  static JobOut from (Job u){
+    public static JobOut from (Job u){
     return JobOut.builder()
+            .id(u.getId())
             .title(u.getTitle())
-            .employerID(u.getEmployer_id())
+            .employerID(u.getEmployer().getId())
             .quanlity(u.getQuanlity())
             .salary(u.getSalary())
-            .fieldId(u.getProvince())
+            .fieldId(u.getFields())
             .provincedIds(u.getFields())
             .expired(u.getExpired_at())
             .build();

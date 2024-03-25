@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,15 +14,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Resume {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     @ManyToOne
     @JoinColumn(name = "seeker_id")
-    private Seeker seeker_id;
+    private Seeker seeker;
 
     @Column(name = "career_obj", columnDefinition = "TEXT")
     private String careerObjective;
@@ -36,7 +36,7 @@ public class Resume {
     private int fields;
 
     @Column(name = "provinces", columnDefinition = "TEXT")
-    private String provinces;
+    private Integer provinces;
 
     @Column(name = "created_at")
     private Date createdAt;

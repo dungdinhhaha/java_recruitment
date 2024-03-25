@@ -1,12 +1,16 @@
 package unigap.api.dto.out;
 
-import lombok.Builder;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class PageDtoOut<T> implements Serializable {
     @Builder.Default
     private Integer page = 1;
@@ -19,7 +23,7 @@ public class PageDtoOut<T> implements Serializable {
     @Builder.Default
     private List<T> data = new ArrayList<>();
 
-    public static <T> PageDtoOut<T> from(Integer page, Integer pageSize, Long totalElements) {
+    public static <T> PageDtoOut<T> from(Integer page, Integer pageSize, Long totalElements, List<T> data) {
         Long totalPages = totalElements / pageSize;
         if (totalElements % pageSize != 0) {
             totalPages++;
@@ -30,6 +34,7 @@ public class PageDtoOut<T> implements Serializable {
                 .pageSize(pageSize)
                 .totalPages(totalPages)
                 .totalElements(totalElements)
+                .data(data)
                 .build();
     }
 }

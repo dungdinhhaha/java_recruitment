@@ -2,10 +2,9 @@ package unigap.api.model;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -13,9 +12,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
+@Getter
+@Setter
 public class Seeker {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "name", columnDefinition = "TEXT")
@@ -35,4 +37,8 @@ public class Seeker {
 
     @Column(name = "updated_at")
     private Date updatedAt;
+    @OneToMany(mappedBy = "seeker",cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Resume> resumes;
 }

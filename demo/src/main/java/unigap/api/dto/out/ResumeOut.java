@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 import unigap.api.model.Resume;
 import unigap.api.model.Seeker;
 
-import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ResumeOut {
-    private Seeker seekerId;
+    private Long seekerId;
     private String careerObj;
     private String title;
     private int salary;
@@ -21,7 +20,7 @@ public class ResumeOut {
     private int provinceIds;
     public static ResumeOut from(Resume u){
         return ResumeOut.builder()
-                .seekerId(u.getSeeker_id())
+                .seekerId(u.getSeeker().getId())
                 .careerObj(u.getCareerObjective())
                 .fieldIds(u.getFields())
                 .title(u.getTitle())
