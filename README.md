@@ -22,7 +22,7 @@ SEEKER
 - Một seeker đang làm việc hoặc mong muốn tìm việc tại một job_province  
 
 RESUME  
-CV xin việc  
+- CV xin việc  
 - Một resume phải được sở hữu bởi duy nhất một seeker  
 - Một resume có thể nằm ở 0 hoặc nhiều job_field  
 - Một resume có thể được dùng để ứng tuyển công việc tại 0 hoặc nhiều job_province  
