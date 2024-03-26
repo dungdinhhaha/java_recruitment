@@ -2,7 +2,7 @@
 
 ## Introduce
 ### Overview
-- Đây là 1 project về lĩnh vực tuyển dụng.
+-Mục tiêu của dự án này là tạo ra một phần mềm để xử lý các chức năng cho hai nhóm người dùng chính trên trang web, bao gồm nhà tuyển dụng và người tìm việc. Nhà tuyển dụng có thể thêm và quản lý công việc, trong khi người tìm việc có thể đăng, quản lý CV, tìm 1 công việc phù hợp.
 
 ### Mô tả
 ![image](https://github.com/dungdinhhaha/recruitment1/assets/116552465/9c63d97e-83e3-45b6-9220-94790ca00562)
