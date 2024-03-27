@@ -8,7 +8,8 @@ import unigap.api.model.Employer;
 import unigap.api.model.Job;
 
 import java.util.Date;
-
+import java.util.List;
+import java.util.Optional;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,20 +20,28 @@ public class JobOut {
     private Integer employerID;
     private  Integer quanlity;
     private String description;
-    private  Integer fieldId;
-    private  Integer provincedIds;
+    private List<String>  fieldId;
+    private  List<String> provincedIds;
     private Integer salary;
     private Date expired ;
-    public static JobOut from (Job u){
+
+    public static  JobOut from (Job u, List<String> fieldId ,List<String> provincedIds){
+
+        Integer employerID1 = null;
+        Employer employer = u.getEmployer();
+        if (employer != null && employer.getId() != null) {
+            employerID1 = employer.getId();
+        }
+
     return JobOut.builder()
             .id(u.getId())
             .title(u.getTitle())
-            .employerID(u.getEmployer().getId())
+            .employerID(employerID1)
             .quanlity(u.getQuanlity())
             .salary(u.getSalary())
-            .fieldId(u.getFields())
-            .provincedIds(u.getFields())
             .expired(u.getExpired_at())
+            .fieldId(fieldId)
+            .provincedIds(provincedIds)
             .build();
     };
 }

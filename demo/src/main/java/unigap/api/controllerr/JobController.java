@@ -47,9 +47,10 @@ public class JobController extends AbstractResponseController {
 
     @GetMapping("/job/{id}")
     public ResponseEntity<?> getJobById(@PathVariable long id ) {
+       JobOut job= jobService.getJobByID(id);
         return responseEntity(
                 ()-> {
-                    return jobService.getJobByID(id);
+                    return job ;
                 }
         );
     }

@@ -45,8 +45,8 @@ public class UserController extends AbstractResponseController {
         try {
             String token = userService.login(
                     userLoginDTO.getPhoneNumber(),
-                    userLoginDTO.getPassword(),
-                    userLoginDTO.getRoleId()
+                    userLoginDTO.getPassword()
+
             );
             // Trả về token trong response
             return responseEntity(

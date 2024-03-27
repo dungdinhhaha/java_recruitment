@@ -11,18 +11,18 @@ import unigap.api.dto.in.JobIn;
 import unigap.api.dto.in.PageDtoIn;
 import unigap.api.dto.out.JobOut;
 import unigap.api.dto.out.PageDtoOut;
-import unigap.api.model.Employer;
-import unigap.api.model.Job;
-import unigap.api.repository.EmployerRepository;
-import unigap.api.repository.JobRepository;
+import unigap.api.model.*;
+import unigap.api.repository.*;
 import unigap.common.ErrorCode;
 import unigap.common.response.ApiException;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class JobServiceImpl implements IJobService{
@@ -30,10 +30,20 @@ public class JobServiceImpl implements IJobService{
     private JobRepository jobRepository;
     @Autowired
     private EmployerRepository employerRepository;
+    @Autowired
+    private JobProvincesSeqRepository jobProvincesSeqRepository;
+    @Autowired
+    private JobFieldSeqRepository jobFieldSeqRepository;
     @Override
     public PageDtoOut<JobOut> getAllJob(PageDtoIn pageDtoIn) {
        Page<Job> s= jobRepository.findAll(PageRequest.of(pageDtoIn.getPage()-1, pageDtoIn.getPageSize()));
-       PageDtoOut<JobOut> e = PageDtoOut.from(pageDtoIn.getPage(), pageDtoIn.getPageSize(), (long) (pageDtoIn.getPageSize()* pageDtoIn.getPage()),s.stream().map(JobOut::from).toList());
+
+       PageDtoOut<JobOut> e = PageDtoOut.from(pageDtoIn.getPage(), pageDtoIn.getPageSize(),
+               (long) (pageDtoIn.getPageSize()* pageDtoIn.getPage()),s.stream().map( id -> {
+
+                   return JobOut.from(id,jobFieldSeqRepository.findFieldName(id.getId())
+                           ,jobProvincesSeqRepository.findProvinceName(id.getId()));
+               }).toList());
         return e;
     }
 
@@ -42,28 +52,27 @@ public class JobServiceImpl implements IJobService{
         Job job =jobRepository.findById((int) id).orElseThrow(
                 () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.BAD_REQUEST,"Cant Find")
         );
-        return JobOut.from(job);
+        return JobOut.from(job,jobFieldSeqRepository.findFieldName(job.getId()) ,jobProvincesSeqRepository.findProvinceName(job.getId()));
     }
 
     @Override
     public JobOut createJob(JobIn jobIn) {
         LocalDateTime localDateTime = LocalDateTime.now();
-        Employer employer = employerRepository.findById(jobIn.getEmployer_id()).orElse(null);
+        Employer employer1 = employerRepository.findById(jobIn.getEmployer_id()).orElse(null);
+
+
     Job job = Job.builder()
                      .title(jobIn.getTitle())
                      .quanlity(jobIn.getQuanlity())
                      .description(jobIn.getDescription())
                      .expired_at(jobIn.getExpired())
-                     .fields(jobIn.getFieldId())
                      .salary(jobIn.getSalary())
-                     .province(jobIn.getProvincedIds())
-                     .employer(employer)
-                     .created_at( Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()))
-                     .updated_at(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()))
+
+                     .employer(employer1)
                      .build();
 
         jobRepository.save(job);
-        return JobOut.from(job);
+        return JobOut.from(job,jobFieldSeqRepository.findFieldName(job.getId()),jobProvincesSeqRepository.findProvinceName(job.getId()));
     }
 
 
@@ -73,11 +82,11 @@ public class JobServiceImpl implements IJobService{
                 () -> new ApiException(ErrorCode.NOT_FOUND,HttpStatus.BAD_REQUEST,"Cant find Id")
         );
         job.setTitle(jobIn.getTitle());
-        job.setFields(job.getFields());
+
         job.setUpdated_at(jobIn.getExpired());
         job.setDescription(job.getDescription());
         jobRepository.save(job);
-        return JobOut.from(job);
+        return JobOut.from(job,jobFieldSeqRepository.findFieldName(job.getId()),jobProvincesSeqRepository.findProvinceName(job.getId()));
 
     }
 

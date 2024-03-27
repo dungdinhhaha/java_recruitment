@@ -3,7 +3,7 @@ package unigap.api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "job")
@@ -24,16 +24,13 @@ public class Job {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Employer employer;
-    @Column(name = "province_id")
-    private Integer province;
+
     @Column(name = "quanlity")
     private Integer quanlity;
     @Column(columnDefinition = "TEXT")
     private String description;
     @Column(name = "salary")
     private Integer salary;
-    @Column(name = "fields")
-    private Integer fields;
     @Column(name = "created_at")
     private Date created_at;
     @Column(name = "updated_at")

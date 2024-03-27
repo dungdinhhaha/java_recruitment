@@ -15,6 +15,8 @@ import java.util.HashSet;
 @AllArgsConstructor
 @Data
 @Builder
+@Getter
+@Setter
 @EntityListeners(EmployerListener.class)
 public class Employer {
     @Id
@@ -53,7 +55,6 @@ public class Employer {
 
     public void addJob(Job job) {
         jobs.add(job);
-
     }
 }
 

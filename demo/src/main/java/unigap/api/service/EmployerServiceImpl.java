@@ -1,6 +1,7 @@
 package unigap.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import unigap.api.config.SpringSecurityConfig;
 import unigap.api.dto.in.EmployerDtoIn;
 import unigap.api.dto.in.EmployerJobRequest;
 import unigap.api.dto.in.JobIn;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmployerServiceImpl implements EmployerSevice {
+    private static final Logger logger1 = Logger.getLogger(EmployerServiceImpl.class);
     @Autowired
     private EmployerRepository employerRepo;
    @Autowired
@@ -57,6 +60,7 @@ public class EmployerServiceImpl implements EmployerSevice {
     public EmployerDtoOut createEmployers(EmployerJobRequest employerDtoIn) {
         employerRepo.findByEmail(employerDtoIn.getEmployerDtoIn().getEmail())
                 .ifPresent(user -> {
+                    logger1.trace("Da ton tai email");
                     throw new ApiException(ErrorCode.BAD_REQUEST, HttpStatus.BAD_REQUEST, "email already existed");
                 });
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -72,13 +76,13 @@ public class EmployerServiceImpl implements EmployerSevice {
         List<JobIn> jobIns = employerDtoIn.getJobIn(); // Lấy danh sách các công việc từ EmployerJobRequest
         for (JobIn jobIn : jobIns) {
             Job job = Job.builder()
-                    .fields(jobIn.getFieldId())
+
                     .title(jobIn.getTitle())
                     .created_at( Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()))
                     .updated_at(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()))
                     .expired_at(jobIn.getExpired())
                     .employer(employer)
-                    .province(jobIn.getProvincedIds())
+
                     .description(jobIn.getDescription())
                     .salary(jobIn.getSalary())
                     .build();

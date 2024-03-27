@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.*;
 import unigap.api.model.User1;
+import unigap.common.response.ApiException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,7 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter{
 
-
+    private static final Logger logger1 = Logger.getLogger(JwtTokenFilter.class);
     private final   JwtTokenUtils jwtTokenUtil;
     @Autowired
     private  UserDetailsService userDetailsService;
@@ -65,6 +67,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
             filterChain.doFilter(request, response); //enable bypass
         }catch (Exception e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+            logger1.trace("UNAUTHORIZED");
         }
 
     }
@@ -72,6 +75,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 
         final List<Pair<String, String>> bypassTokens = Arrays.asList(
                 Pair.of("api/employers", "GET"),
+
                 Pair.of("users/register", "POST"),
                 Pair.of("users/login", "POST"),
                 Pair.of("api/**", "GET")

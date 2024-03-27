@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 @EqualsAndHashCode(callSuper = true)
 public class ApiException extends RuntimeException {
 
-    private static final Logger logger1 = Logger.getLogger(ApiException.class);
+
     private Integer errorCode;
     private HttpStatus httpStatus;
 
